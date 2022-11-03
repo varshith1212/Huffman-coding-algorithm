@@ -1,0 +1,91 @@
+
+Huffman : A lossless data compression technique used to reduce the size of a given input without losing any of its details.
+
+A string takes the number of characters * 8 bits of space
+
+Eg: aaaaaaaabbbbbbbccccdd
+
+step-1: calculate the frequency of each string.
+
+    a:8 b:7 c:4 d:2
+
+step-2: sort them in ascending oder
+
+    d:2 c:4 b:7 a:8
+
+step-3: construct a binary tree by picking pairs of the character frequency
+
+step-3.1: pick the two lowest frequency from the list,
+          the sum of their frequencies will be the frequency of their parent node.
+
+                    6
+                  /   \
+                 2     4
+                (d)   (c)
+
+          list then becomes-- 6 b:7 a:8
+         (the best way to implement this list is using a priorityQueue)
+
+step-3.2: repeat this step until only one node is left.
+
+                        21
+                      /    \
+                    8(a)   13
+                          /   \
+                         6      7(b)
+                       /   \
+                     2(d)  4(c)
+
+step-3.3: Assign values 0 on left edge and 1 on right edge.
+
+
+                        21
+                     0/    \1
+                     /      \
+                    8(a)    13
+                          0/   \1
+                          /     \
+                         6      7(b)
+                       0/  \1
+                       /    \
+                     2(d)  4(c)
+
+step-4: read the codes from root all the way down to the character's leaf node.
+
+Now the derived binary codes or huffman codes become
+        a: 0
+        b: 11
+        c: 101
+        d: 100
+
+    All the binary codes can be decoded uniquely,
+    this is ensured because of prefix rule.
+
+    prefix rule: a code associated with a character should not be present in the prefix of any other code.
+
+    The tree we generated makes sure prefix rule is followed.
+
+        a: 1    c: 00
+        b: 10   d: 000
+
+        These violate the prefix rule
+
+classes:
+
+    Node implements Comparable
+        frequency, leftnode, rightnode
+        compareTo method
+    Leaf extends Node
+        adds the character to the node
+    Huffman
+        fillCharFrequenciesMap
+            reads and calculates the frequency of each character in the string
+        encode
+            generate priorityQueue and complete step-3
+        generateHuffmanCodes
+            call recursively to generate the huffman codes over the tree created.
+        getEncodedText
+            iterates over the input text and replaces with the huffman codes
+        decode
+
+
