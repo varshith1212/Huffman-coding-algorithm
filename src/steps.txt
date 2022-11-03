@@ -87,5 +87,4 @@ classes:
         getEncodedText
             iterates over the input text and replaces with the huffman codes
         decode
-
-
+            create the string back traversing the tree over the encoded string.
